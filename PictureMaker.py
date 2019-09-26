@@ -90,10 +90,37 @@ save_image(convertedPollock, "Training Images\pollockRed.png")
 """
 import os
 
+def reSize(file):
+    filename = file
+    path = "Downloads/AppChallenge2019-master/AppChallenge2019-master/Training Images/inputs/" + filename + ".jpg" #This is for a specific computer
+    image_case = open_image(path)
+    w, h = image_case.size
+    #print("Old W: " + str(w) + "\nOld H: " + str(h))
+    if w>h:
+        image_case = (image_case.rotate(90)).crop((0,0,(w-w%600),(h-h%450)))
+    elif h>w:
+        image_case = image_case.crop((0,0,(w-w%450),(h-h%600)))
+    else:
+        pass #square
+        
+    w, h = image_case.size
+    #print("New W: " + str(w) + "\nNew H: " + str(h))
+    
+    
+    image_case = image_case.resize( (450,600), resample=0 )
+    w, h = image_case.size
+    #print("Super W: " + str(w) + "\nSuper H: " + str(h))
+    
+    save_image(  image_case,"Downloads/AppChallenge2019-master/AppChallenge2019-master/Training Images/outputs/" + filename + ".jpg"   )
+    
 def makePictures(file):
   filename = file
+  print(os.getcwd())
+  #path = "Downloads/AppChallenge2019-master/AppChallenge2019-master/Training Images/inputs/" + filename + ".jpg" #This is for a specific computer
   path = "Training Images/inputs/" + filename + ".jpg" #input("Image path? ")
+  print(path)
   image_case = open_image(path)
+  
 
   os.mkdir(("Training Images/outputs/" + filename))
 
@@ -106,10 +133,13 @@ def makePictures(file):
 #x = combine_pictures_check( (open_image("Training Images\\" + filename + "_r.png")), (open_image("Training Images\\" + filename + "_g.png")), (open_image("Training Images\\" + filename + "_b.png")) )
 #save_image(x, ("Training Images\\" + filename + "_concat.png"))
 
+
 for i in range(71):
     try:
-        makePictures(str(i))
+        reSize(str(i))
     except:
         print("Failed picture " + str(i) + ".")
+
+#reSize("26")
 
 print("Completed images.")
