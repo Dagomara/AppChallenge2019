@@ -88,16 +88,61 @@ Pollock = open_image("Training Images/jackson20pollock.png")
 convertedPollock = convert_picture(Pollock, "r")
 save_image(convertedPollock, "Training Images\pollockRed.png")
 """
+
+
+def makePictures(file):
+    filename = file
+    print(os.getcwd())
+    #path = "Downloads/AppChallenge2019-master/AppChallenge2019-master/Training Images/inputs/" + filename + ".jpg" #This is for a specific computer
+    path = "Training Images/inputs/" + filename + ".jpg" #input("Image path? ")
+    print(path)
+    image_case = open_image(path)
+    
+    
+    os.mkdir(("Training Images/outputs/" + filename))
+    
+    save_image(convert_picture(image_case, "r"),("Training Images/outputs/" + filename + "/r.jpg"))
+    save_image(convert_picture(image_case, "g"),("Training Images/outputs/" + filename + "/g.jpg"))
+    save_image(convert_picture(image_case, "b"),("Training Images/outputs/" + filename + "/b.jpg"))
+    
+    print("File " + filename + " created")
+    
+    #x = combine_pictures_check( (open_image("Training Images\\" + filename + "_r.png")), (open_image("Training Images\\" + filename + "_g.png")), (open_image("Training Images\\" + filename + "_b.png")) )
+    #save_image(x, ("Training Images\\" + filename + "_concat.png"))
+
+
+
 import os
+
+
+
+print(os.getcwd())
+
 
 def reSize(file):
     filename = file
-    path = "Downloads/AppChallenge2019-master/AppChallenge2019-master/Training Images/inputs/" + filename + ".jpg" #This is for a specific computer
+    """
+    path = "Downloads/AppChallenge2019-master/AppChallenge2019-master/Training Images/inputs/stuffs/image" + filename + ".jfif" #This is for a specific computer
+    try:
+        image_case = open_image(path)
+        print("jfif recc'd")
+        jpg = 0
+    except:
+        path = "Downloads/AppChallenge2019-master/AppChallenge2019-master/Training Images/inputs/stuffs/image" + filename + ".jpg"
+        image_case = open_image(path)
+        print("jpg recc'd")
+        jpg = 1
+    """
+    
+    path = "Downloads/AppChallenge2019-master/AppChallenge2019-master/Training Images/inputs/stuffs/image" + filename + ".jpg"
     image_case = open_image(path)
+        
+        
     w, h = image_case.size
     #print("Old W: " + str(w) + "\nOld H: " + str(h))
     if w>h:
-        image_case = (image_case.rotate(90)).crop((0,0,(w-w%600),(h-h%450)))
+        image_case = image_case.crop((0,0,(w-w%4),(h-h%3)))
+        image_case = (image_case.rotate(90))
     elif h>w:
         image_case = image_case.crop((0,0,(w-w%450),(h-h%600)))
     else:
@@ -108,38 +153,30 @@ def reSize(file):
     
     
     image_case = image_case.resize( (450,600), resample=0 )
-    w, h = image_case.size
+    #w, h = image_case.size
     #print("Super W: " + str(w) + "\nSuper H: " + str(h))
     
-    save_image(  image_case,"Downloads/AppChallenge2019-master/AppChallenge2019-master/Training Images/outputs/" + filename + ".jpg"   )
+    jpg = 1
     
-def makePictures(file):
-  filename = file
-  print(os.getcwd())
-  #path = "Downloads/AppChallenge2019-master/AppChallenge2019-master/Training Images/inputs/" + filename + ".jpg" #This is for a specific computer
-  path = "Training Images/inputs/" + filename + ".jpg" #input("Image path? ")
-  print(path)
-  image_case = open_image(path)
-  
-
-  os.mkdir(("Training Images/outputs/" + filename))
-
-  save_image(convert_picture(image_case, "r"),("Training Images/outputs/" + filename + "/r.jpg"))
-  save_image(convert_picture(image_case, "g"),("Training Images/outputs/" + filename + "/g.jpg"))
-  save_image(convert_picture(image_case, "b"),("Training Images/outputs/" + filename + "/b.jpg"))
-
-  print("File " + filename + " created")
-
-#x = combine_pictures_check( (open_image("Training Images\\" + filename + "_r.png")), (open_image("Training Images\\" + filename + "_g.png")), (open_image("Training Images\\" + filename + "_b.png")) )
-#save_image(x, ("Training Images\\" + filename + "_concat.png"))
+    if jpg == 1:
+        print("So saving as jpg")
+        save_image(  image_case,"Downloads/AppChallenge2019-master/AppChallenge2019-master/Training Images/outputs/stuffs/" + filename + ".jpg"   )
+    else:
+        print("haha jfif")
+        save_image(  image_case,"Downloads/AppChallenge2019-master/AppChallenge2019-master/Training Images/outputs/stuffs/" + filename + ".jfif"  )
+                                   
+                                                                            
+                                                                                                                     
+                                                                                                                                                                                                       
 
 
+"""
 for i in range(71):
     try:
         reSize(str(i))
     except:
         print("Failed picture " + str(i) + ".")
-
-#reSize("26")
+"""
+reSize("1")
 
 print("Completed images.")
